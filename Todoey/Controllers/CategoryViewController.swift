@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import CoreData
 import RealmSwift
 
-class CategoryViewController: UITableViewController {
+class CategoryViewController: SwipeTableViewController{
     
     let realm = try! Realm()
     
@@ -19,8 +18,9 @@ class CategoryViewController: UITableViewController {
     //let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     override func viewDidLoad() {
         super.viewDidLoad()
-     
+        
         loadCategories()
+        tableView.rowHeight = 80.0
         
     }
     
@@ -30,8 +30,11 @@ class CategoryViewController: UITableViewController {
         return categories?.count ?? 1
     }
     
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell",for: indexPath)
+   
+        let cell  = super.tableView(tableView, cellForRowAt: indexPath)
+        
         var category = Category()
         category = categories?[indexPath.row] as! Category
         cell.textLabel?.text = category.name
@@ -45,10 +48,10 @@ class CategoryViewController: UITableViewController {
         performSegue(withIdentifier: "GoToItem", sender: self)
     }
     
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC  = segue.destination as! TodoListViewController
         if let indexPath = tableView.indexPathForSelectedRow {
-            //destinationVC.selectedCategory = categories[indexPath.row]
             destinationVC.selectedCategory = categories?[indexPath.row]
         }
     }
@@ -96,6 +99,22 @@ class CategoryViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    //MARK: Delete data for Swipe
+    
+    override func updateModel(at indexPath: IndexPath) {
+        guard let categoryForDeletion = self.categories?[indexPath.row] else {
+            return
+        }
+        do {
+            try self.realm.write{
+                self.realm.delete(categoryForDeletion)
+            }
+        } catch {
+            print("Error  to delete categorty")
+        }
+        //tableView.reloadData()
+    }
+    
 }
 
 extension Results {
@@ -109,3 +128,5 @@ extension Results {
         return array
     }
 }
+
+
