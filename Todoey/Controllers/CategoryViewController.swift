@@ -29,6 +29,14 @@ class CategoryViewController: SwipeTableViewController{
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let navBarBackgroundColor = UIColor(hexString: "1D9BF6") {
+            updateNavBarColor(navBarBackgroundColor)
+        }
+    }
+    
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -45,10 +53,11 @@ class CategoryViewController: SwipeTableViewController{
             cell.textLabel?.text = category.name
             cell.backgroundColor = UIColor(hexString: category.bgColor)
             cell.textLabel?.textColor = ContrastColorOf(UIColor(hexString: category.bgColor ?? "FFFFFF")! , returnFlat: true)
-            
+            cell.accessoryType = .disclosureIndicator
+            cell.accessoryView?.backgroundColor = ContrastColorOf(UIColor(hexString: category.bgColor ?? "FFFFFF")! , returnFlat: true)
         }
         
-        cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
     

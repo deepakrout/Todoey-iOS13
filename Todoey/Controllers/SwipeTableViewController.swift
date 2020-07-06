@@ -8,6 +8,7 @@
 
 import UIKit
 import SwipeCellKit
+import ChameleonFramework
 
 class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegate {
     
@@ -50,6 +51,38 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
     
     func updateModel(at indexPath: IndexPath) {
         //update data
+    }
+    
+    func updateNavBarColor(_ backgroundColor: UIColor) {
+       guard let navBar = navigationController?.navigationBar else { fatalError("NavigationController does not exist") }
+//
+//        navBar.standardAppearance.backgroundColor = backgroundColor
+//        navBar.scrollEdgeAppearance?.backgroundColor = backgroundColor
+//        navBar.backgroundColor = backgroundColor
+//        navBar.scrollEdgeAppearance?.largeTitleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+//        navBar.standardAppearance.largeTitleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+//
+//        let contrastOfBackgroundColor = ContrastColorOf(backgroundColor, returnFlat: true)
+//
+//        // Small title colors: (also shown when large title collapses by scrolling down)
+//        navBar.barTintColor = backgroundColor
+//        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: contrastOfBackgroundColor]
+//
+//        // Large title colors:
+//        navBar.backgroundColor = backgroundColor
+//        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: contrastOfBackgroundColor]
+//
+//        // Color the back button and icons: (both small and large title)
+//        navBar.tintColor = contrastOfBackgroundColor
+        
+        
+        let navBarAppearance = UINavigationBarAppearance()
+           navBarAppearance.configureWithOpaqueBackground()
+           navBarAppearance.titleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+           navBarAppearance.largeTitleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+           navBarAppearance.backgroundColor = backgroundColor
+           navBar.standardAppearance = navBarAppearance
+           navBar.scrollEdgeAppearance = navBarAppearance
     }
     
 }
