@@ -75,14 +75,17 @@ class SwipeTableViewController: UITableViewController, SwipeTableViewCellDelegat
 //        // Color the back button and icons: (both small and large title)
 //        navBar.tintColor = contrastOfBackgroundColor
         
-        
-        let navBarAppearance = UINavigationBarAppearance()
-           navBarAppearance.configureWithOpaqueBackground()
-           navBarAppearance.titleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
-           navBarAppearance.largeTitleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
-           navBarAppearance.backgroundColor = backgroundColor
-           navBar.standardAppearance = navBarAppearance
-           navBar.scrollEdgeAppearance = navBarAppearance
+        /* Coutrsey: https://stackoverflow.com/questions/56556254/in-ios13-the-status-bar-background-colour-is-different-from-the-navigation-bar-i/57152709#57152709
+ */
+        if #available(iOS 13.0, *) {
+            let navBarAppearance = UINavigationBarAppearance()
+               navBarAppearance.configureWithOpaqueBackground()
+               navBarAppearance.titleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+               navBarAppearance.largeTitleTextAttributes = [.foregroundColor: ContrastColorOf(backgroundColor, returnFlat: true)]
+               navBarAppearance.backgroundColor = backgroundColor
+               navBar.standardAppearance = navBarAppearance
+               navBar.scrollEdgeAppearance = navBarAppearance
+        }
     }
     
 }
